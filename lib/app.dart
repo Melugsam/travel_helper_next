@@ -20,7 +20,7 @@ final GoRouter _route = GoRouter(routes: [
   ),
   GoRoute(
     path: '/search',
-    builder: (context, state) => SearchMapScreen(),
+    builder: (context, state) => SearchScreen(),
   )
 ]);
 
