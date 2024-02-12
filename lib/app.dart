@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_helper_next/ui/screens/auth/login_screen.dart';
 import 'package:travel_helper_next/ui/screens/auth/register_screen.dart';
+import 'package:travel_helper_next/ui/screens/profile/profile_screen.dart';
+import 'package:travel_helper_next/ui/screens/results/results_screen.dart';
 import 'package:travel_helper_next/ui/screens/search/search_map_screen.dart';
 import 'package:travel_helper_next/ui/screens/welcome/welcome_screen.dart';
 
@@ -21,6 +23,14 @@ final GoRouter _route = GoRouter(routes: [
   GoRoute(
     path: '/search',
     builder: (context, state) => SearchScreen(),
+  ),
+  GoRoute(
+    path: '/results',
+    builder: (context, state) => ResultsScreen(),
+  ),
+  GoRoute(
+    path: '/profile',
+    builder: (context, state) => ProfileScreen(),
   )
 ]);
 

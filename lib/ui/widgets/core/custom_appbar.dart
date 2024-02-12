@@ -15,17 +15,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (icon != null) Icon(icon, size: iconSize ?? 24),
+          Text(title,
+              style: TextStyle(
+                  fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
+                  fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                  fontWeight: Theme.of(context).textTheme.bodyLarge!.fontWeight)),
           if (icon != null)
             SizedBox(
               width: 4,
             ),
-          Text(title,
-              style: TextStyle(
-                fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
-                fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
-                fontWeight: Theme.of(context).textTheme.bodyLarge!.fontWeight
-              )),
+          if (icon != null) Icon(icon, size: iconSize ?? 24),
         ],
       ),
       backgroundColor: Color.fromRGBO(245, 241, 254, 1.0),
