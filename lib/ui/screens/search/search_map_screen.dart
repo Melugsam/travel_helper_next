@@ -6,11 +6,17 @@ import 'package:latlong2/latlong.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
   @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  @override
   Widget build(BuildContext context) {
+    LatLng _mapPoint = LatLng(55.748886, 37.617209);
     return Scaffold(
       appBar: CustomAppBar(
         title: "Поиск",
@@ -21,17 +27,31 @@ class SearchScreen extends StatelessWidget {
         children: [
           FlutterMap(
             options: MapOptions(
-              initialCenter: LatLng(55.4424, 37.3636),
+              initialCenter: LatLng(55.748886, 37.617209),
               initialZoom: 6.2,
+              onTap: (tapPosition, point) {
+                setState(() {
+                  print(_mapPoint);
+                  _mapPoint = point;
+                  print(_mapPoint);
+                });
+              },
             ),
             children: [
               TileLayer(
                 urlTemplate:
                     'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}@2x.png?api_key=20ad4712-4a32-4aff-a85e-faf739839183',
               ),
+              MarkerLayer(markers: [
+                Marker(
+                  point: _mapPoint,
+                  child: Icon(Icons.location_on, color: Colors.red),
+                  width: 80.0,
+                  height: 80.0,
+                )
+              ]),
               RichAttributionWidget(
                 animationConfig: const ScaleRAWA(), // Или `FadeRAWA`
-
                 attributions: [
                   TextSourceAttribution(
                     textStyle: TextStyle(fontSize: 16),

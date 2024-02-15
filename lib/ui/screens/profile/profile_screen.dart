@@ -10,7 +10,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: "Профиль",
-        icon: Icons.apps_sharp,
+        icon: Icons.person,
         iconSize: 36,
       ),
       body: Placeholder(),
