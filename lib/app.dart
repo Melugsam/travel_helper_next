@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_helper_next/ui/screens/auth/login_screen.dart';
 import 'package:travel_helper_next/ui/screens/auth/register_screen.dart';
+import 'package:travel_helper_next/ui/screens/navigation/navigation_screen.dart';
 import 'package:travel_helper_next/ui/screens/profile/profile_screen.dart';
 import 'package:travel_helper_next/ui/screens/results/results_screen.dart';
 import 'package:travel_helper_next/ui/screens/search/search_map_screen.dart';
 import 'package:travel_helper_next/ui/screens/welcome/welcome_screen.dart';
 
-final GoRouter _route = GoRouter(routes: [
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
+final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
+
+final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
   GoRoute(
     path: '/',
     builder: (context, state) => WelcomeScreen(),
@@ -20,18 +25,30 @@ final GoRouter _route = GoRouter(routes: [
     path: '/register',
     builder: (context, state) => RegisterScreen(),
   ),
-  GoRoute(
-    path: '/search',
-    builder: (context, state) => SearchScreen(),
-  ),
-  GoRoute(
-    path: '/results',
-    builder: (context, state) => ResultsScreen(),
-  ),
-  GoRoute(
-    path: '/profile',
-    builder: (context, state) => ProfileScreen(),
-  )
+  StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return NavigationScreen(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: '/search',
+            pageBuilder: (context, state) => NoTransitionPage(child: SearchScreen()),
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: '/results',
+            pageBuilder: (context, state) => NoTransitionPage(child: ResultsScreen()),
+          ),
+        ]),
+        StatefulShellBranch(routes: [
+          GoRoute(
+            path: '/profile',
+            pageBuilder: (context, state) => NoTransitionPage(child: ProfileScreen()),
+          )
+        ])
+      ])
 ]);
 
 class TravelHelperApp extends StatelessWidget {
