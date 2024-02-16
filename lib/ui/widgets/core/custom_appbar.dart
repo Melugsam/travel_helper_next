@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  final IconData? icon;
+  final int currentIndex;
   final double? iconSize;
+  late final String title;
+  late final IconData? icon;
 
-  const CustomAppBar({super.key, required this.title, this.icon, this.iconSize});
+  CustomAppBar({
+    Key? key,
+    required this.currentIndex,
+    this.iconSize,
+  }) : super(key: key) {
+    switch (currentIndex){
+      case 0:
+        title ="Поиск";
+        icon = Icons.search;
+        break;
+      case 1:
+        title ="Результаты";
+        icon = Icons.apps_sharp;
+        break;
+      case 2:
+        title ="Профиль";
+        icon = Icons.person;
+        break;
+      default:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +43,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
                   fontWeight: Theme.of(context).textTheme.bodyLarge!.fontWeight)),
           if (icon != null)
-            SizedBox(
+            const SizedBox(
               width: 4,
             ),
           if (icon != null) Icon(icon, size: iconSize ?? 24),

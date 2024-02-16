@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:travel_helper_next/ui/widgets/core/custom_appbar.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,11 +17,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Поиск",
-        icon: Icons.search,
-        iconSize: 36,
-      ),
       body: Stack(
         children: [
           FlutterMap(
