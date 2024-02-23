@@ -1,3 +1,4 @@
+const Map<String,dynamic> mul = 
 {
   "status": true,
   "message": "Success",
@@ -105,7 +106,7 @@
               "__typename": "AppPresentation_PhotoItemSizeDynamic",
               "maxHeight": 995,
               "maxWidth": 2000,
-              "urlTemplate": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/83/07/e2/caption.jpg?w={width}&h={height}&s=1"
+              "urlTemplate": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/83/07/e2/caption.jpg?w=500&h=500&s=1"
             }
           },
           {
@@ -1925,4 +1926,4 @@
       }
     ]
   }
-}
+};

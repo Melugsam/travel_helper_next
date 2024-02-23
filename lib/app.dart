@@ -9,8 +9,6 @@ import 'package:travel_helper_next/ui/screens/search/search_map_screen.dart';
 import 'package:travel_helper_next/ui/screens/welcome/welcome_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
-final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
 
 final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
   GoRoute(
