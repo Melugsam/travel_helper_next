@@ -1,17 +1,82 @@
 import 'package:flutter/material.dart';
 
-class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({super.key});
+class ResultsScreen extends StatefulWidget {
+  final int index = 0;
+
+  @override
+  State<ResultsScreen> createState() => _ResultsScreenState();
+}
+
+class _ResultsScreenState extends State<ResultsScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController =
+        TabController(length: 3, vsync: this, initialIndex: widget.index);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      // children: [
-      //   TabBar(
-      //     tabs: [
-
-      //   ],)
-      // ],
+      children: [
+        Container(
+          height: 80,
+          child: TabBar(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            dividerHeight: 0,
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                  (Set<MaterialState> states) {
+                return states.contains(MaterialState.focused) ? null : Colors.transparent;
+              },
+            ),
+            controller: _tabController,
+            tabs: const [
+              Tab(
+                text: "Отели",
+                icon: Icon(
+                  Icons.hotel,
+                  size: 24,
+                ),
+                iconMargin: EdgeInsets.zero,
+              ),
+              Tab(
+                text: "Разное",
+                icon: Icon(
+                  Icons.home_filled,
+                  size: 24,
+                ),
+                iconMargin: EdgeInsets.zero,
+              ),
+              Tab(
+                text: "Погода",
+                icon: Icon(
+                  Icons.cloud,
+                  size: 24,
+                ),
+                iconMargin: EdgeInsets.zero,
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: TabBarView(controller: _tabController, children: [
+            Center(child: Text('Content for Tab 1')),
+            Center(child: Text('Content for Tab 2')),
+            Center(child: Text('Content for Tab 3')),
+          ]),
+        )
+      ],
     );
   }
+
 }

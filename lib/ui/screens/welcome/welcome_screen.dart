@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
           child: CustomButton(
               text: "Начать",
               icon: Icons.arrow_forward,
-              onPressed: () => {context.go('/login')},
+              onPressed: () => {context.go('/results')},
               style: CutstomButtonStyle(
                   borderRadius: 4,
                   customBackgroundColor: Theme.of(context).primaryColor,
