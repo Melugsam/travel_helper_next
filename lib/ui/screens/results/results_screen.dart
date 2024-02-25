@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/attractions_content.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/hotels_content.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/weather_content.dart';
 
 class ResultsScreen extends StatefulWidget {
   final int index = 0;
@@ -70,9 +73,9 @@ class _ResultsScreenState extends State<ResultsScreen>
         ),
         Expanded(
           child: TabBarView(controller: _tabController, children: [
-            Center(child: Text('Content for Tab 1')),
-            Center(child: Text('Content for Tab 2')),
-            Center(child: Text('Content for Tab 3')),
+            HotelsContent(),
+            AttractionsContent(),
+            WeatherContent(),
           ]),
         )
       ],
