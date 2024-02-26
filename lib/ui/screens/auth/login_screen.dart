@@ -49,14 +49,18 @@ class LoginScreen extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {},
                     style: ButtonStyle(
-                        overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
-                        padding: MaterialStateProperty.all(EdgeInsets.only(left: 20)),
+                        overlayColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.transparent),
+                        padding: MaterialStateProperty.all(
+                            EdgeInsets.only(left: 20)),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                     child: Text(
                       "Забыли пароль?",
                       style: TextStyle(
-                          fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
-                          fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodySmall!.fontFamily,
+                          fontSize:
+                              Theme.of(context).textTheme.bodySmall!.fontSize,
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).colorScheme.primary),
                     ),
@@ -84,21 +88,31 @@ class LoginScreen extends StatelessWidget {
                     Text(
                       "Нет аккаунта?",
                       style: TextStyle(
-                          fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
-                          fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodySmall!.fontFamily,
+                          fontSize:
+                              Theme.of(context).textTheme.bodySmall!.fontSize,
                           fontWeight: FontWeight.w400),
                     ),
                     TextButton(
                         onPressed: () => {context.go('/register')},
                         style: ButtonStyle(
-                            overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
-                            padding: MaterialStateProperty.all(EdgeInsets.only(left: 4)),
+                            overlayColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.transparent),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsets.only(left: 4)),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                         child: Text(
                           "Регистрация",
                           style: TextStyle(
-                              fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
-                              fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+                              fontFamily: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .fontFamily,
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .fontSize,
                               fontWeight: FontWeight.w600),
                         ))
                   ],

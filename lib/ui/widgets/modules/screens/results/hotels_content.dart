@@ -6,7 +6,7 @@ import 'package:travel_helper_next/data/json/tripadvisor.dart';
 class HotelsContent extends StatelessWidget {
   HotelsContent({Key? key}) : super(key: key);
 
-  final HotelsRequest hotels = HotelsRequest.fromJson(mul);
+  final HotelsRequest hotelsRequest = HotelsRequest.fromJson(mul);
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +14,9 @@ class HotelsContent extends StatelessWidget {
       physics: AlwaysScrollableScrollPhysics(),
       addAutomaticKeepAlives: true,
       scrollDirection: Axis.vertical,
-      itemCount: hotels.data.data.length-1,
+      itemCount: hotelsRequest.data.data.length-1,
       itemBuilder: (context, index) {
-        final hotel = hotels.data.data[index];
+        final hotel = hotelsRequest.data.data[index];
         return _HotelBlock(
           title: hotel.title,
           bubbleRating: hotel.bubbleRating,
