@@ -112,7 +112,7 @@ flutter:
         - asset: assets/fonts/Manrope-ExtraBold.ttf
           weight: 800
 
-  assets:
-    - assets/images/face_sad.svg
+  # assets:
+  #   - assets/images/face_sad.svg
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

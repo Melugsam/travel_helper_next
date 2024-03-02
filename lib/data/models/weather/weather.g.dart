@@ -27,12 +27,14 @@ Map<String, dynamic> _$$WeatherDataImplToJson(_$WeatherDataImpl instance) =>
 _$MainImpl _$$MainImplFromJson(Map<String, dynamic> json) => _$MainImpl(
       temp: (json['temp'] as num).toDouble(),
       humidity: (json['humidity'] as num).toDouble(),
+      pressure: (json['pressure'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$MainImplToJson(_$MainImpl instance) =>
     <String, dynamic>{
       'temp': instance.temp,
       'humidity': instance.humidity,
+      'pressure': instance.pressure,
     };
 
 _$WeatherImpl _$$WeatherImplFromJson(Map<String, dynamic> json) =>

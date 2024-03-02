@@ -21,6 +21,7 @@ class Main with _$Main {
   const factory Main({
     required double temp,
     required double humidity,
+    required double pressure,
   }) = _Main;
 
   factory Main.fromJson(Map<String, dynamic> json) => _$MainFromJson(json);

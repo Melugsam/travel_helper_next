@@ -246,6 +246,7 @@ Main _$MainFromJson(Map<String, dynamic> json) {
 mixin _$Main {
   double get temp => throw _privateConstructorUsedError;
   double get humidity => throw _privateConstructorUsedError;
+  double get pressure => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -257,7 +258,7 @@ abstract class $MainCopyWith<$Res> {
   factory $MainCopyWith(Main value, $Res Function(Main) then) =
       _$MainCopyWithImpl<$Res, Main>;
   @useResult
-  $Res call({double temp, double humidity});
+  $Res call({double temp, double humidity, double pressure});
 }
 
 /// @nodoc
@@ -275,6 +276,7 @@ class _$MainCopyWithImpl<$Res, $Val extends Main>
   $Res call({
     Object? temp = null,
     Object? humidity = null,
+    Object? pressure = null,
   }) {
     return _then(_value.copyWith(
       temp: null == temp
@@ -284,6 +286,10 @@ class _$MainCopyWithImpl<$Res, $Val extends Main>
       humidity: null == humidity
           ? _value.humidity
           : humidity // ignore: cast_nullable_to_non_nullable
+              as double,
+      pressure: null == pressure
+          ? _value.pressure
+          : pressure // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -296,7 +302,7 @@ abstract class _$$MainImplCopyWith<$Res> implements $MainCopyWith<$Res> {
       __$$MainImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double temp, double humidity});
+  $Res call({double temp, double humidity, double pressure});
 }
 
 /// @nodoc
@@ -311,6 +317,7 @@ class __$$MainImplCopyWithImpl<$Res>
   $Res call({
     Object? temp = null,
     Object? humidity = null,
+    Object? pressure = null,
   }) {
     return _then(_$MainImpl(
       temp: null == temp
@@ -321,6 +328,10 @@ class __$$MainImplCopyWithImpl<$Res>
           ? _value.humidity
           : humidity // ignore: cast_nullable_to_non_nullable
               as double,
+      pressure: null == pressure
+          ? _value.pressure
+          : pressure // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -328,7 +339,8 @@ class __$$MainImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MainImpl implements _Main {
-  const _$MainImpl({required this.temp, required this.humidity});
+  const _$MainImpl(
+      {required this.temp, required this.humidity, required this.pressure});
 
   factory _$MainImpl.fromJson(Map<String, dynamic> json) =>
       _$$MainImplFromJson(json);
@@ -337,10 +349,12 @@ class _$MainImpl implements _Main {
   final double temp;
   @override
   final double humidity;
+  @override
+  final double pressure;
 
   @override
   String toString() {
-    return 'Main(temp: $temp, humidity: $humidity)';
+    return 'Main(temp: $temp, humidity: $humidity, pressure: $pressure)';
   }
 
   @override
@@ -350,12 +364,14 @@ class _$MainImpl implements _Main {
             other is _$MainImpl &&
             (identical(other.temp, temp) || other.temp == temp) &&
             (identical(other.humidity, humidity) ||
-                other.humidity == humidity));
+                other.humidity == humidity) &&
+            (identical(other.pressure, pressure) ||
+                other.pressure == pressure));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, temp, humidity);
+  int get hashCode => Object.hash(runtimeType, temp, humidity, pressure);
 
   @JsonKey(ignore: true)
   @override
@@ -374,7 +390,8 @@ class _$MainImpl implements _Main {
 abstract class _Main implements Main {
   const factory _Main(
       {required final double temp,
-      required final double humidity}) = _$MainImpl;
+      required final double humidity,
+      required final double pressure}) = _$MainImpl;
 
   factory _Main.fromJson(Map<String, dynamic> json) = _$MainImpl.fromJson;
 
@@ -382,6 +399,8 @@ abstract class _Main implements Main {
   double get temp;
   @override
   double get humidity;
+  @override
+  double get pressure;
   @override
   @JsonKey(ignore: true)
   _$$MainImplCopyWith<_$MainImpl> get copyWith =>
