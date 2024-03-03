@@ -1,9 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:travel_helper_next/data/json/openweather.dart';
 import 'package:travel_helper_next/data/models/weather/weather.dart';
 import 'package:travel_helper_next/domain/services/weather_request/weather_request.dart';
+import 'package:travel_helper_next/ui/widgets/core/custom_network_image.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error.dart';
 
 class WeatherContent extends StatelessWidget {
@@ -20,11 +20,14 @@ class WeatherContent extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 48,
+                  height: 24,
                 ),
                 const Text(
                   "Los Santos",
-                  style: TextStyle(color: Color.fromRGBO(59, 67, 104, 1), fontWeight: FontWeight.w900, fontSize: 32),
+                  style: TextStyle(
+                      color: Color.fromRGBO(59, 67, 104, 1),
+                      fontWeight: FontWeight.w900,
+                      fontSize: 32),
                 ),
                 Text(
                   degCelsius(currWeather.main.temp),
@@ -33,7 +36,9 @@ class WeatherContent extends StatelessWidget {
                     fontSize: 32,
                   ),
                 ),
-                Image.network("https://openweathermap.org/img/wn/${currWeather.weather[0].icon}@2x.png"),
+                CustomNetworkImage(
+                    url:
+                        "https://openweathermap.org/img/wn/${currWeather.weather[0].icon}@2x.png"),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: Row(
@@ -52,7 +57,9 @@ class WeatherContent extends StatelessWidget {
                           Text(
                             "${currWeather.main.humidity.toInt()}%",
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromRGBO(66, 72, 86, 1)),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(66, 72, 86, 1)),
                           )
                         ],
                       ),
@@ -69,7 +76,9 @@ class WeatherContent extends StatelessWidget {
                           Text(
                             "${currWeather.main.pressure.toInt()}Bar",
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromRGBO(66, 72, 86, 1)),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(66, 72, 86, 1)),
                           )
                         ],
                       ),
@@ -86,7 +95,9 @@ class WeatherContent extends StatelessWidget {
                           Text(
                             "${currWeather.wind.speed.toInt()}km/h",
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromRGBO(66, 72, 86, 1)),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(66, 72, 86, 1)),
                           )
                         ],
                       ),
@@ -100,7 +111,10 @@ class WeatherContent extends StatelessWidget {
                   height: 120,
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: weatherRequest.list.length - 2 < 5 ? weatherRequest.list.length - 2 : 5,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: weatherRequest.list.length - 2 < 5
+                        ? weatherRequest.list.length - 2
+                        : 5,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       final hourWeather = weatherRequest.list[index];
@@ -112,16 +126,20 @@ class WeatherContent extends StatelessWidget {
                   height: 30,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: weatherRequest.list.length-1,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: weatherRequest.list.length - 1,
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       final dayWeather = weatherRequest.list[index];
                       return _WeatherItemDay(dayWeather: dayWeather);
                     },
                   ),
+                ),
+                const SizedBox(
+                  height: 24,
                 )
               ],
             ),
@@ -156,10 +174,12 @@ class _WeatherItemHour extends StatelessWidget {
             ),
           ),
           SizedBox(
-            child: Image.network("https://openweathermap.org/img/wn/${hourWeather.weather[0].icon}.png"),
+              child: CustomNetworkImage(
+            url:
+                "https://openweathermap.org/img/wn/${hourWeather.weather[0].icon}.png",
             width: 50,
             height: 50,
-          ),
+          )),
           Text(
             "${degCelsius(hourWeather.main.temp)}",
             style: TextStyle(
@@ -178,7 +198,8 @@ class _WeatherItemHour extends StatelessWidget {
 String degCelsius(double num) => "${num.toInt() - 273}";
 
 String drFormat(String dt_txt) {
-  int tmp = int.parse(dt_txt.substring(dt_txt.indexOf(" "), dt_txt.indexOf(":")));
+  int tmp =
+      int.parse(dt_txt.substring(dt_txt.indexOf(" "), dt_txt.indexOf(":")));
   int hour = tmp % 12;
   if (hour == 0) {
     hour = 12;
@@ -189,16 +210,62 @@ String drFormat(String dt_txt) {
 
 class _WeatherItemDay extends StatelessWidget {
   final WeatherData dayWeather;
-  const _WeatherItemDay({super.key, required this.dayWeather});
+
+  const _WeatherItemDay({required this.dayWeather});
 
   @override
   Widget build(BuildContext context) {
-    return int.parse(dayWeather.dt_txt.substring(dayWeather.dt_txt.indexOf(" "), dayWeather.dt_txt.indexOf(":")))==12 ? 
-    Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("${dayWeather.dt_txt}")
-      ],
-    ) : SizedBox();
+    return int.parse(dayWeather.dt_txt.substring(dayWeather.dt_txt.indexOf(" "),
+                dayWeather.dt_txt.indexOf(":"))) ==
+            12
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text("${temp(dayWeather.dt_txt)}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromRGBO(79, 85, 118, 1),
+                      fontFamily:
+                          Theme.of(context).textTheme.bodySmall!.fontFamily,
+                      fontSize: 20,
+                    )),
+              ),
+              CustomNetworkImage(
+                url:
+                    "https://openweathermap.org/img/wn/${dayWeather.weather[0].icon}.png",
+                height: 50,
+                width: 50,
+              ),
+              const SizedBox(width: 40,),
+              Text("${degCelsius(dayWeather.main.temp)}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromRGBO(79, 85, 118, 1),
+                    fontFamily:
+                        Theme.of(context).textTheme.bodySmall!.fontFamily,
+                    fontSize: 20,
+                  )),
+            ],
+          )
+        : SizedBox();
+  }
+
+  String degCelsius(double num) => "${num.toInt() - 273}";
+
+  String temp(String dt_txt) {
+    List<String> t =
+        dt_txt.substring(0, dt_txt.lastIndexOf("-") + 3).split("-");
+    List<String> days = [
+      'Понедельник',
+      'Вторник',
+      'Среда',
+      'Четверг',
+      'Пятница',
+      'Суббота',
+      'Воскресенье'
+    ];
+    DateTime date = DateTime(int.parse(t[0]), int.parse(t[1]), int.parse(t[2]));
+    return days[date.weekday - 1].toString();
   }
 }

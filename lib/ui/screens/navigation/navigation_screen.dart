@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:travel_helper_next/ui/widgets/core/custom_appbar.dart';
+//import 'package:travel_helper_next/ui/widgets/core/custom_appbar.dart';
 
 class NavigationScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -13,10 +13,10 @@ class NavigationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        currentIndex: navigationShell.currentIndex,
-        iconSize: 36,
-      ),
+      // appBar: CustomAppBar(
+      //   currentIndex: navigationShell.currentIndex,
+      //   iconSize: 36,
+      // ),
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
         surfaceTintColor: Colors.white,

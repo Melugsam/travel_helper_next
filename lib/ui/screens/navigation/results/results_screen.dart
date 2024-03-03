@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_helper_next/ui/widgets/modules/screens/results/attractions_content.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/monuments_content/monuments_content.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/hotels_content.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/weather_content.dart';
 
@@ -31,6 +31,7 @@ class _ResultsScreenState extends State<ResultsScreen>
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 40,),
         Container(
           height: 80,
           child: TabBar(
@@ -53,17 +54,17 @@ class _ResultsScreenState extends State<ResultsScreen>
                 iconMargin: EdgeInsets.zero,
               ),
               Tab(
-                text: "Разное",
+                text: "Погода",
                 icon: Icon(
-                  Icons.home_filled,
+                  Icons.cloud,
                   size: 24,
                 ),
                 iconMargin: EdgeInsets.zero,
               ),
               Tab(
-                text: "Погода",
+                text: "Памятники",
                 icon: Icon(
-                  Icons.cloud,
+                  Icons.museum,
                   size: 24,
                 ),
                 iconMargin: EdgeInsets.zero,
@@ -74,8 +75,8 @@ class _ResultsScreenState extends State<ResultsScreen>
         Expanded(
           child: TabBarView(controller: _tabController, children: [
             HotelsContent(),
-            AttractionsContent(),
             WeatherContent(),
+            AttractionsContent(),
           ]),
         )
       ],

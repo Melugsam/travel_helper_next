@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:travel_helper_next/ui/screens/auth/login_screen.dart';
 import 'package:travel_helper_next/ui/screens/auth/register_screen.dart';
 import 'package:travel_helper_next/ui/screens/navigation/navigation_screen.dart';
-import 'package:travel_helper_next/ui/screens/profile/profile_screen.dart';
-import 'package:travel_helper_next/ui/screens/results/results_screen.dart';
-import 'package:travel_helper_next/ui/screens/search/search_map_screen.dart';
+import 'package:travel_helper_next/ui/screens/navigation/profile/profile_screen.dart';
+import 'package:travel_helper_next/ui/screens/navigation/results/results_screen.dart';
+import 'package:travel_helper_next/ui/screens/navigation/search/search_map_screen.dart';
 import 'package:travel_helper_next/ui/screens/welcome/welcome_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();

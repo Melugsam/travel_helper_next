@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_helper_next/data/models/hotel/hotel_class.dart';
 import 'package:travel_helper_next/domain/services/hotels_request/hotels_request.dart';
 import 'package:travel_helper_next/data/json/tripadvisor.dart';
+import 'package:travel_helper_next/ui/widgets/core/custom_network_image.dart';
 
 class HotelsContent extends StatelessWidget {
   HotelsContent({Key? key}) : super(key: key);
@@ -10,19 +11,21 @@ class HotelsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: AlwaysScrollableScrollPhysics(),
-      addAutomaticKeepAlives: true,
-      scrollDirection: Axis.vertical,
-      itemCount: hotelsRequest.data.data.length-1,
-      itemBuilder: (context, index) {
-        final hotel = hotelsRequest.data.data[index];
-        return _HotelBlock(
-          title: hotel.title,
-          bubbleRating: hotel.bubbleRating,
-          cardPhotos: hotel.cardPhotos,
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemCount: hotelsRequest.data.data.length - 1,
+        itemBuilder: (context, index) {
+          final hotel = hotelsRequest.data.data[index];
+          return _HotelBlock(
+            title: hotel.title,
+            bubbleRating: hotel.bubbleRating,
+            cardPhotos: hotel.cardPhotos,
+          );
+        },
+      ),
     );
   }
 }
@@ -44,18 +47,25 @@ class _HotelBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.fromLTRB(30,0,30,40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
               height: 180,
-              child: cardPhotos.isEmpty ? ClipRRect(borderRadius: BorderRadius.circular(8.0), child: ColoredBox(color: Colors.red.shade400,),) : ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  photoUrl(cardPhotos[0].sizes.urlTemplate),
-                  fit: BoxFit.fill,
-                ),
+              child: cardPhotos.isEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: ColoredBox(
+                        color: Colors.red.shade400,
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: CustomNetworkImage(
+                        url: photoUrl(cardPhotos[0].sizes.urlTemplate),
+                        boxFit: BoxFit.fill
+                      )
               )),
           Padding(
             padding: const EdgeInsets.only(top: 8),
@@ -67,18 +77,24 @@ class _HotelBlock extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
+                      color: const Color.fromRGBO(59, 67, 104, 1),
                       fontFamily:
                           Theme.of(context).textTheme.bodySmall!.fontFamily,
                       fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 Wrap(children: [
-                  Icon(Icons.person, size: 24,),
+                  const Icon(
+                    Icons.person,
+                    color: Color.fromRGBO(51, 55, 84, 1.0),
+                    size: 24,
+                  ),
                   Text(
                     bubbleRating.count,
                     style: TextStyle(
+                      color: const Color.fromRGBO(59, 67, 104, 1),
                       fontFamily:
                           Theme.of(context).textTheme.bodySmall!.fontFamily,
                       fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
@@ -86,14 +102,21 @@ class _HotelBlock extends StatelessWidget {
                     ),
                   ),
                 ]),
-                SizedBox(width: 4,),
+                const SizedBox(
+                  width: 4,
+                ),
                 Wrap(children: [
-                  Icon(Icons.star, size: 24, color: Colors.yellow,),
+                  const Icon(
+                    Icons.star,
+                    size: 24,
+                    color: Colors.yellow,
+                  ),
                   Text(
                     bubbleRating.rating.toString(),
                     style: TextStyle(
+                      color: const Color.fromRGBO(59, 67, 104, 1),
                       fontFamily:
-                      Theme.of(context).textTheme.bodySmall!.fontFamily,
+                          Theme.of(context).textTheme.bodySmall!.fontFamily,
                       fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
                       fontWeight: FontWeight.w600,
                     ),
