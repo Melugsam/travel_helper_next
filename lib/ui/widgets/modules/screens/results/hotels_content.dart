@@ -3,6 +3,7 @@ import 'package:travel_helper_next/data/models/hotel/hotel_class.dart';
 import 'package:travel_helper_next/domain/services/hotels_request/hotels_request.dart';
 import 'package:travel_helper_next/data/json/tripadvisor.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_network_image.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error.dart';
 
 class HotelsContent extends StatelessWidget {
   HotelsContent({Key? key}) : super(key: key);
@@ -11,22 +12,7 @@ class HotelsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        itemCount: hotelsRequest.data.data.length - 1,
-        itemBuilder: (context, index) {
-          final hotel = hotelsRequest.data.data[index];
-          return _HotelBlock(
-            title: hotel.title,
-            bubbleRating: hotel.bubbleRating,
-            cardPhotos: hotel.cardPhotos,
-          );
-        },
-      ),
-    );
+    return FindError();
   }
 }
 
