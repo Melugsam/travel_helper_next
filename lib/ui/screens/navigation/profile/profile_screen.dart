@@ -130,15 +130,17 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: Container(
-            color: Color.fromRGBO(248, 249, 250, 1.0),
-            child: Column(
-
-              children: [
-                CustomProfileButton(icon: Icons.settings, text: "Настройки"),
-              ],
+            child: Container(
+              width: double.infinity,
+              color: const Color.fromRGBO(222, 225, 230, 1.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 24,),
+                  CustomProfileButton(icon: Icons.settings, text: "Настройки"),
+                ],
+              ),
             ),
-          ))
+          ),
         ],
       ),
     );

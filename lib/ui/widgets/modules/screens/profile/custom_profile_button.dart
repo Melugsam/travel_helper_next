@@ -21,18 +21,23 @@ class CustomProfileButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(onPressed: () {}, icon: Icon(icon)),
-            const SizedBox(width: 16,),
-            Text(
-              text,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                color: const Color.fromRGBO(66, 70, 97, 1),
-                fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
-                fontSize: 16,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                IconButton(onPressed: () {}, icon: Icon(icon)),
+                const SizedBox(width: 4,),
+                Text(
+                  text,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: const Color.fromRGBO(66, 70, 97, 1),
+                    fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
+                    fontSize: 16,
+                  ),
+                ),
+              ]
             ),
             Icon(Icons.chevron_right_sharp, size: 24,)
           ],

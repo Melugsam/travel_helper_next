@@ -12,7 +12,20 @@ class HotelsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FindError();
+    return ListView.builder(
+      physics: AlwaysScrollableScrollPhysics(),
+      addAutomaticKeepAlives: true,
+      scrollDirection: Axis.vertical,
+      itemCount: hotelsRequest.data.data.length-1,
+      itemBuilder: (context, index) {
+        final hotel = hotelsRequest.data.data[index];
+        return _HotelBlock(
+          title: hotel.title,
+          bubbleRating: hotel.bubbleRating,
+          cardPhotos: hotel.cardPhotos,
+        );
+      },
+    );
   }
 }
 
