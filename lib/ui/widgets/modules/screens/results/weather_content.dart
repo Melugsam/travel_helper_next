@@ -39,6 +39,7 @@ class WeatherContent extends StatelessWidget {
                 CustomNetworkImage(
                     url:
                         "https://openweathermap.org/img/wn/${currWeather.weather[0].icon}@2x.png"),
+                const SizedBox(height: 12,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: Row(
@@ -105,7 +106,7 @@ class WeatherContent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 40,
                 ),
                 SizedBox(
                   height: 120,
@@ -121,9 +122,6 @@ class WeatherContent extends StatelessWidget {
                       return _WeatherItemHour(hourWeather: hourWeather);
                     },
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),

@@ -133,10 +133,12 @@ class ProfileScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               color: const Color.fromRGBO(222, 225, 230, 1.0),
-              child: Column(
+              child: const Column(
                 children: [
-                  const SizedBox(height: 24,),
+                  SizedBox(height: 24,),
                   CustomProfileButton(icon: Icons.settings, text: "Настройки"),
+                  SizedBox(height: 8,),
+                  CustomProfileButton(icon: Icons.headphones, text: "Поддержка"),
                 ],
               ),
             ),

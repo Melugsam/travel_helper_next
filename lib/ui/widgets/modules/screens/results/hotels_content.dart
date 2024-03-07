@@ -12,20 +12,22 @@ class HotelsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: AlwaysScrollableScrollPhysics(),
-      addAutomaticKeepAlives: true,
-      scrollDirection: Axis.vertical,
-      itemCount: hotelsRequest.data.data.length-1,
-      itemBuilder: (context, index) {
-        final hotel = hotelsRequest.data.data[index];
-        return _HotelBlock(
-          title: hotel.title,
-          bubbleRating: hotel.bubbleRating,
-          cardPhotos: hotel.cardPhotos,
-        );
-      },
-    );
+    return hotelsRequest.data.data.isEmpty
+        ? const FindError()
+        : ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            addAutomaticKeepAlives: true,
+            scrollDirection: Axis.vertical,
+            itemCount: hotelsRequest.data.data.length - 1,
+            itemBuilder: (context, index) {
+              final hotel = hotelsRequest.data.data[index];
+              return _HotelBlock(
+                title: hotel.title,
+                bubbleRating: hotel.bubbleRating,
+                cardPhotos: hotel.cardPhotos,
+              );
+            },
+          );
   }
 }
 
@@ -46,7 +48,7 @@ class _HotelBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(30,0,30,40),
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -62,10 +64,8 @@ class _HotelBlock extends StatelessWidget {
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: CustomNetworkImage(
-                        url: photoUrl(cardPhotos[0].sizes.urlTemplate),
-                        boxFit: BoxFit.fill
-                      )
-              )),
+                          url: photoUrl(cardPhotos[0].sizes.urlTemplate),
+                          boxFit: BoxFit.fill))),
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Row(
