@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
 import 'package:travel_helper_next/data/models/hotel/hotel_class.dart';
-import 'package:travel_helper_next/domain/services/hotels_request/hotels_request.dart';
-import 'package:travel_helper_next/data/json/tripadvisor.dart';
+import 'package:travel_helper_next/domain/services/hotels_response/hotels_response.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_network_image.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_wait.dart';
 
 class HotelsContent extends StatelessWidget {
   HotelsContent({Key? key}) : super(key: key);
 
-  final HotelsRequest hotelsRequest = HotelsRequest.fromJson(mul);
-
   @override
   Widget build(BuildContext context) {
-    return hotelsRequest.data.data.isEmpty
-        ? const FindError()
-        : ListView.builder(
+    return BlocBuilder<HotelsInfoBloc, HotelsInfoState>(
+      builder: (context, state) {
+        if (state is HotelsInfoErrorState) {
+          return const FindError();
+        }
+        if (state is HotelsInfoLoadingState) {
+          return const Center(child: CircularProgressIndicator(),);
+        }
+        if (state is HotelsInfoReceivedState){
+          final HotelsResponse hotelsRequest = state.response;
+          return ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             addAutomaticKeepAlives: true,
             scrollDirection: Axis.vertical,
@@ -28,6 +36,12 @@ class HotelsContent extends StatelessWidget {
               );
             },
           );
+        }
+        else {
+          return const FindWait();
+        }
+      },
+    );
   }
 }
 

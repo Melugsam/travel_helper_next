@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
-import 'package:travel_helper_next/bloc/navigation/search/find_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/weather/weather_info_bloc.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -83,9 +84,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         text: "Найти",
                         icon: Icons.map_outlined,
                         onPressed: () {
-                          BlocProvider.of<FindInfoBloc>(context).add(FindButtonEvent(_mapPoint));
-                          BlocProvider.of<HotelsInfoBloc>(context).add(MakeRequestHotels());
-
+                          //BlocProvider.of<HotelsInfoBloc>(context).add(MakeRequestHotels(mapPoint: _mapPoint));
+                          //BlocProvider.of<WeatherInfoBloc>(context).add(MakeRequestWeather(mapPoint: _mapPoint));
+                          BlocProvider.of<MonumentsInfoBloc>(context).add(MakeRequestMonuments(mapPoint: _mapPoint));
+                          context.go('/results');
                         },
                         style: CutstomButtonStyle(
                             borderRadius: 26,

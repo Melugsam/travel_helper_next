@@ -3,19 +3,24 @@ import 'dart:convert';
 import 'package:latlong2/latlong.dart';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:travel_helper_next/domain/services/weather_request/weather_request.dart';
+import 'package:travel_helper_next/domain/services/weather_response/weather_response.dart';
 
 part 'weather_info_event.dart';
 part 'weather_info_state.dart';
 
 class WeatherInfoBloc extends Bloc<WeatherInfoEvent, WeatherInfoState> {
   WeatherInfoBloc() : super(WeatherInfoInitial()) {
-    on<WeatherInfoEvent>((event, emit) {
-      // TODO: implement event handler
+    on<MakeRequestWeather>((event, emit) async {
+      emit(WeatherInfoLoadingState());
+      try{
+        var response = await fetchWeatherData(event.mapPoint);
+        emit(WeatherInfoReceivedState(weatherResponse: response));
+      }catch (ex){
+       emit(WeatherInfoErrorState());
+      }
     });
   }
-
-  Future<WeatherRequest?> fetchWeatherData(LatLng mapPoint) async {
+  Future<WeatherResponse> fetchWeatherData(LatLng mapPoint) async {
     try {
       final response = await http.get(
           Uri.parse(
@@ -26,11 +31,14 @@ class WeatherInfoBloc extends Bloc<WeatherInfoEvent, WeatherInfoState> {
             'X-RapidAPI-Host': 'open-weather13.p.rapidapi.com',
           });
       if (response.statusCode == 200) {
-        return WeatherRequest.fromJson(json.decode(response.body));
+        return WeatherResponse.fromJson(json.decode(response.body));
       }
-    } on Exception catch (ex) {
+      else{
+        throw Exception("Плохой статус");
+      }
+    } catch(ex) {
       print(ex);
+      throw Exception("Не удалось получить информацию");
     }
-    return null;
   }
 }

@@ -1,39 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
 import 'package:travel_helper_next/data/models/monument/monument.dart';
-import 'package:travel_helper_next/domain/services/monuments_request/monuments_request.dart';
+import 'package:travel_helper_next/domain/services/monuments_response/monuments_response.dart';
 import 'package:travel_helper_next/data/json/maps_data.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_wait.dart';
 
 import 'monuments_bottom_sheet_content.dart';
 
 class AttractionsContent extends StatelessWidget {
   AttractionsContent({Key? key}) : super(key: key);
-  final MonumentsRequest monumentsRequest = MonumentsRequest.fromJson(mul);
+  final MonumentsResponse monumentsResponse = MonumentsResponse.fromJson(mul);
 
   @override
   Widget build(BuildContext context) {
-    return monumentsRequest.data.isEmpty
-        ? const FindError()
-        : SingleChildScrollView(
-            child: Column(
+    return BlocBuilder<MonumentsInfoBloc, MonumentsInfoState>(
+        builder: (context, state) {
+      if (state is MonumentInfoError) {
+        return const FindError();
+      }
+      if (state is MonumentInfoLoading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (state is MonumentInfoReceived) {
+        return SingleChildScrollView(
+          child: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 15),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: monumentsRequest.data.length - 1,
+                  padding: EdgeInsets.zero,
+                  itemCount: monumentsResponse.data.length - 1,
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return _MonumentItem(
-                      monumentData: monumentsRequest.data[index],
+                      monumentData: monumentsResponse.data[index],
                     );
                   },
                 ),
               ),
             ],
-          ));
+          ),
+        );
+      } else {
+        return const FindWait();
+      }
+    });
   }
 }
 

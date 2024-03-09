@@ -1,147 +1,173 @@
 import 'package:flutter/material.dart';
-
-import 'package:travel_helper_next/data/json/openweather.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/weather/weather_info_bloc.dart';
 import 'package:travel_helper_next/data/models/weather/weather.dart';
-import 'package:travel_helper_next/domain/services/weather_request/weather_request.dart';
+import 'package:travel_helper_next/domain/services/weather_response/weather_response.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_network_image.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_wait.dart';
 
 class WeatherContent extends StatelessWidget {
   WeatherContent({Key? key}) : super(key: key);
 
-  final WeatherRequest weatherRequest = WeatherRequest.fromJson(mul);
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<WeatherInfoBloc, WeatherInfoState>(
+      builder: (context, state) {
+        if (state is WeatherInfoErrorState) {
+          return const FindError();
+        }
+        if (state is WeatherInfoLoadingState) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is WeatherInfoReceivedState) {
+          return _ContentWidget(
+            weatherResponse: state.weatherResponse,
+          );
+        } else {
+          return const FindWait();
+        }
+      },
+    );
+  }
+}
+
+class _ContentWidget extends StatelessWidget {
+  final WeatherResponse weatherResponse;
+
+  const _ContentWidget({required this.weatherResponse});
 
   @override
   Widget build(BuildContext context) {
-    final currWeather = weatherRequest.list[0];
-    return weatherRequest.list.isEmpty
-        ? FindError()
-        : SingleChildScrollView(
-            child: Column(
+    final currWeather = weatherResponse.list[0];
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 24,
+          ),
+          Text(
+            weatherResponse.city.name.toString(),
+            style: const TextStyle(
+                color: Color.fromRGBO(59, 67, 104, 1),
+                fontWeight: FontWeight.w900,
+                fontSize: 32),
+          ),
+          Text(
+            degCelsius(currWeather.main.temp),
+            style: const TextStyle(
+              color: Color.fromRGBO(59, 67, 104, 1),
+              fontSize: 32,
+            ),
+          ),
+          CustomNetworkImage(
+              url:
+                  "https://openweathermap.org/img/wn/${currWeather.weather[0].icon}@2x.png"),
+          const SizedBox(
+            height: 12,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(
-                  height: 24,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.water_drop_outlined,
+                      color: Color.fromRGBO(47, 89, 225, 1.0),
+                    ),
+                    const SizedBox(
+                      width: 4.0,
+                    ),
+                    Text(
+                      "${currWeather.main.humidity.toInt()}%",
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromRGBO(66, 72, 86, 1)),
+                    )
+                  ],
                 ),
-                const Text(
-                  "Los Santos",
-                  style: TextStyle(
-                      color: Color.fromRGBO(59, 67, 104, 1),
-                      fontWeight: FontWeight.w900,
-                      fontSize: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.thermostat,
+                      color: Color.fromRGBO(47, 89, 225, 1.0),
+                    ),
+                    const SizedBox(
+                      width: 4.0,
+                    ),
+                    Text(
+                      "${currWeather.main.pressure.toInt()}Bar",
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromRGBO(66, 72, 86, 1)),
+                    )
+                  ],
                 ),
-                Text(
-                  degCelsius(currWeather.main.temp),
-                  style: const TextStyle(
-                    color: Color.fromRGBO(59, 67, 104, 1),
-                    fontSize: 32,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.air,
+                      color: Color.fromRGBO(47, 89, 225, 1.0),
+                    ),
+                    const SizedBox(
+                      width: 4.0,
+                    ),
+                    Text(
+                      "${currWeather.wind.speed.toInt()}km/h",
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromRGBO(66, 72, 86, 1)),
+                    )
+                  ],
                 ),
-                CustomNetworkImage(
-                    url:
-                        "https://openweathermap.org/img/wn/${currWeather.weather[0].icon}@2x.png"),
-                const SizedBox(height: 12,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.water_drop_outlined,
-                            color: Color.fromRGBO(47, 89, 225, 1.0),
-                          ),
-                          const SizedBox(
-                            width: 4.0,
-                          ),
-                          Text(
-                            "${currWeather.main.humidity.toInt()}%",
-                            style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(66, 72, 86, 1)),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.thermostat,
-                            color: Color.fromRGBO(47, 89, 225, 1.0),
-                          ),
-                          const SizedBox(
-                            width: 4.0,
-                          ),
-                          Text(
-                            "${currWeather.main.pressure.toInt()}Bar",
-                            style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(66, 72, 86, 1)),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.air,
-                            color: Color.fromRGBO(47, 89, 225, 1.0),
-                          ),
-                          const SizedBox(
-                            width: 4.0,
-                          ),
-                          Text(
-                            "${currWeather.wind.speed.toInt()}km/h",
-                            style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(66, 72, 86, 1)),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                SizedBox(
-                  height: 120,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: weatherRequest.list.length - 2 < 5
-                        ? weatherRequest.list.length - 2
-                        : 5,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final hourWeather = weatherRequest.list[index];
-                      return _WeatherItemHour(hourWeather: hourWeather);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: weatherRequest.list.length - 1,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      final dayWeather = weatherRequest.list[index];
-                      return _WeatherItemDay(dayWeather: dayWeather);
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 24,
-                )
               ],
             ),
-          );
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          SizedBox(
+            height: 120,
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: weatherResponse.list.length - 2 < 5
+                  ? weatherResponse.list.length - 2
+                  : 5,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                final hourWeather = weatherResponse.list[index];
+                return _WeatherItemHour(hourWeather: hourWeather);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: weatherResponse.list.length - 1,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                final dayWeather = weatherResponse.list[index];
+                return _WeatherItemDay(dayWeather: dayWeather);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   String degCelsius(double num) => "${num.toInt() - 273}°";
@@ -163,10 +189,10 @@ class _WeatherItemHour extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "${drFormat(hourWeather.dt_txt)}",
+            drFormat(hourWeather.dt_txt),
             style: TextStyle(
               fontWeight: FontWeight.w500,
-              color: Color.fromRGBO(66, 70, 97, 1),
+              color: const Color.fromRGBO(66, 70, 97, 1),
               fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
               fontSize: 16,
             ),
@@ -179,10 +205,10 @@ class _WeatherItemHour extends StatelessWidget {
             height: 50,
           )),
           Text(
-            "${degCelsius(hourWeather.main.temp)}",
+            degCelsius(hourWeather.main.temp),
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Color.fromRGBO(79, 85, 118, 1),
+              color: const Color.fromRGBO(79, 85, 118, 1),
               fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
               fontSize: 20,
             ),
@@ -203,7 +229,7 @@ String drFormat(String dt_txt) {
     hour = 12;
   }
   String period = tmp < 12 ? "AM" : "PM";
-  return "${hour} $period";
+  return "$hour $period";
 }
 
 class _WeatherItemDay extends StatelessWidget {
@@ -220,14 +246,16 @@ class _WeatherItemDay extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text("${temp(dayWeather.dt_txt)}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromRGBO(79, 85, 118, 1),
-                      fontFamily:
-                          Theme.of(context).textTheme.bodySmall!.fontFamily,
-                      fontSize: 20,
-                    )),
+                child: Text(
+                  dataFormat(dayWeather.dt_txt),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: const Color.fromRGBO(79, 85, 118, 1),
+                    fontFamily:
+                        Theme.of(context).textTheme.bodySmall!.fontFamily,
+                    fontSize: 20,
+                  ),
+                ),
               ),
               CustomNetworkImage(
                 url:
@@ -235,23 +263,25 @@ class _WeatherItemDay extends StatelessWidget {
                 height: 50,
                 width: 50,
               ),
-              const SizedBox(width: 40,),
-              Text("${degCelsius(dayWeather.main.temp)}",
+              const SizedBox(
+                width: 40,
+              ),
+              Text(degCelsius(dayWeather.main.temp),
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Color.fromRGBO(79, 85, 118, 1),
+                    color: const Color.fromRGBO(79, 85, 118, 1),
                     fontFamily:
                         Theme.of(context).textTheme.bodySmall!.fontFamily,
                     fontSize: 20,
                   )),
             ],
           )
-        : SizedBox();
+        : const SizedBox();
   }
 
   String degCelsius(double num) => "${num.toInt() - 273}";
 
-  String temp(String dt_txt) {
+  String dataFormat(String dt_txt) {
     List<String> t =
         dt_txt.substring(0, dt_txt.lastIndexOf("-") + 3).split("-");
     List<String> days = [

@@ -37,6 +37,15 @@ Map<String, dynamic> _$$MainImplToJson(_$MainImpl instance) =>
       'pressure': instance.pressure,
     };
 
+_$CityImpl _$$CityImplFromJson(Map<String, dynamic> json) => _$CityImpl(
+      name: json['name'] as String? ?? "",
+    );
+
+Map<String, dynamic> _$$CityImplToJson(_$CityImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
 _$WeatherImpl _$$WeatherImplFromJson(Map<String, dynamic> json) =>
     _$WeatherImpl(
       id: json['id'] as int,

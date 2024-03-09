@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
-import 'package:travel_helper_next/bloc/navigation/search/find_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/weather/weather_info_bloc.dart';
 import 'package:travel_helper_next/ui/screens/auth/login_screen.dart';
 import 'package:travel_helper_next/ui/screens/auth/register_screen.dart';
 import 'package:travel_helper_next/ui/screens/navigation/navigation_screen.dart';
@@ -60,14 +61,16 @@ class TravelHelperApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final findInfoBloc = FindInfoBloc();
     return MultiBlocProvider(
       providers: [
-        BlocProvider<FindInfoBloc>(
-          create: (context) => findInfoBloc,
-        ),
         BlocProvider<HotelsInfoBloc>(
-          create: (context) => HotelsInfoBloc(findInfoBloc),
+          create: (context) => HotelsInfoBloc(),
+        ),
+        BlocProvider<WeatherInfoBloc>(
+          create: (context) => WeatherInfoBloc(),
+        ),
+        BlocProvider<MonumentsInfoBloc>(
+          create: (context) => MonumentsInfoBloc(),
         ),
       ],
       child: MaterialApp.router(

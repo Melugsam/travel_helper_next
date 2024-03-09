@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'weather.freezed.dart';
+
 part 'weather.g.dart';
 
 @freezed
@@ -25,6 +26,15 @@ class Main with _$Main {
   }) = _Main;
 
   factory Main.fromJson(Map<String, dynamic> json) => _$MainFromJson(json);
+}
+
+@freezed
+class City with _$City {
+  const factory City({
+    @Default("") String name,
+  }) = _City;
+
+  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
 }
 
 @freezed

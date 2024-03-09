@@ -3,34 +3,28 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:travel_helper_next/bloc/navigation/search/find_info_bloc.dart';
-import 'package:travel_helper_next/domain/services/hotels_request/hotels_request.dart';
+import 'package:travel_helper_next/domain/services/hotels_response/hotels_response.dart';
 
 part 'hotels_info_event.dart';
 
 part 'hotels_info_state.dart';
 
 class HotelsInfoBloc extends Bloc<HotelsInfoEvent, HotelsInfoState> {
-  final FindInfoBloc findInfoBloc;
-  late StreamSubscription findInfoSubscription;
-
-  HotelsInfoBloc(this.findInfoBloc) : super(HotelsInfoInitial()) {
-    on<MakeRequestHotels>((event, emit) {
-      print(123);
-    });
-    findInfoSubscription = findInfoBloc.stream.listen((state) {
-      print("123");
+  HotelsInfoBloc() : super(HotelsInfoInitial()) {
+    on<MakeRequestHotels>((event, emit) async {
+      emit(HotelsInfoLoadingState());
+      try{
+        var response =await fetchHotelsData(event.mapPoint);
+        emit(HotelsInfoReceivedState(response:response));
+      }catch(ex){
+        print(ex);
+        emit(HotelsInfoErrorState());
+      }
     });
   }
 
-  @override
-  Future<void> close() {
-    findInfoSubscription.cancel();
-    return super.close();
-  }
-
-  Future<HotelsRequest?> fetchHotelsData(LatLng mapPoint) async {
-    String checkIn = "2024-03-08";
+  Future<HotelsResponse> fetchHotelsData(LatLng mapPoint) async {
+    String checkIn = "2024-03-10";
     String checkOut = "2024-03-21";
     try {
       final response = await http.get(
@@ -42,11 +36,14 @@ class HotelsInfoBloc extends Bloc<HotelsInfoEvent, HotelsInfoState> {
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com',
           });
       if (response.statusCode == 200) {
-        return HotelsRequest.fromJson(json.decode(response.body));
+        return HotelsResponse.fromJson(json.decode(response.body));
       }
-    } on Exception catch (ex) {
+      else {
+        throw Exception('Плохой статус');
+      }
+    } catch (ex) {
       print(ex);
+      throw Exception("Не удалось получить информацию");
     }
-    return null;
   }
 }
