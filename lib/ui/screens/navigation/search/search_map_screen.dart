@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/search/find_info_bloc.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,7 +15,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  LatLng _mapPoint = LatLng(55.748886, 37.617209);
+  LatLng _mapPoint = const LatLng(55.748886, 37.617209);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           FlutterMap(
             options: MapOptions(
-              initialCenter: LatLng(55.748886, 37.617209),
+              initialCenter: const LatLng(55.748886, 37.617209),
               initialZoom: 8.2,
               onTap: (tapPosition, point) {
                 setState(() {
@@ -37,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
               MarkerLayer(markers: [
                 Marker(
                   point: _mapPoint,
-                  child: Icon(
+                  child: const Icon(
                     Icons.location_on,
                     color: Colors.redAccent,
                     size: 32,
@@ -79,7 +82,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: CustomButton(
                         text: "Найти",
                         icon: Icons.map_outlined,
-                        onPressed: () {},
+                        onPressed: () {
+                          BlocProvider.of<FindInfoBloc>(context).add(FindButtonEvent(_mapPoint));
+                          BlocProvider.of<HotelsInfoBloc>(context).add(MakeRequestHotels());
+
+                        },
                         style: CutstomButtonStyle(
                             borderRadius: 26,
                             customBackgroundColor: Theme.of(context).primaryColor,

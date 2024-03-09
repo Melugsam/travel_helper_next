@@ -1,0 +1,36 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:latlong2/latlong.dart';
+import 'package:bloc/bloc.dart';
+import 'package:http/http.dart' as http;
+import 'package:travel_helper_next/domain/services/weather_request/weather_request.dart';
+
+part 'weather_info_event.dart';
+part 'weather_info_state.dart';
+
+class WeatherInfoBloc extends Bloc<WeatherInfoEvent, WeatherInfoState> {
+  WeatherInfoBloc() : super(WeatherInfoInitial()) {
+    on<WeatherInfoEvent>((event, emit) {
+      // TODO: implement event handler
+    });
+  }
+
+  Future<WeatherRequest?> fetchWeatherData(LatLng mapPoint) async {
+    try {
+      final response = await http.get(
+          Uri.parse(
+              'https://open-weather13.p.rapidapi.com/city/fivedaysforcast/${mapPoint.latitude}/${mapPoint.longitude}'),
+          headers: {
+            'X-RapidAPI-Key':
+            'b90067a9b8msh9395067bc105ddfp16fba8jsnaa403b98ff76',
+            'X-RapidAPI-Host': 'open-weather13.p.rapidapi.com',
+          });
+      if (response.statusCode == 200) {
+        return WeatherRequest.fromJson(json.decode(response.body));
+      }
+    } on Exception catch (ex) {
+      print(ex);
+    }
+    return null;
+  }
+}

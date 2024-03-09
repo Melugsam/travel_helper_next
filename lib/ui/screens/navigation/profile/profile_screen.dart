@@ -3,7 +3,6 @@ import 'package:travel_helper_next/ui/widgets/modules/screens/profile/custom_pro
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

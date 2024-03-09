@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/search/find_info_bloc.dart';
 import 'package:travel_helper_next/ui/screens/auth/login_screen.dart';
 import 'package:travel_helper_next/ui/screens/auth/register_screen.dart';
 import 'package:travel_helper_next/ui/screens/navigation/navigation_screen.dart';
@@ -31,19 +34,22 @@ final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
         StatefulShellBranch(routes: [
           GoRoute(
             path: '/search',
-            pageBuilder: (context, state) => NoTransitionPage(child: SearchScreen()),
+            pageBuilder: (context, state) =>
+                NoTransitionPage(child: SearchScreen()),
           ),
         ]),
         StatefulShellBranch(routes: [
           GoRoute(
             path: '/results',
-            pageBuilder: (context, state) => NoTransitionPage(child: ResultsScreen()),
+            pageBuilder: (context, state) =>
+                NoTransitionPage(child: ResultsScreen()),
           ),
         ]),
         StatefulShellBranch(routes: [
           GoRoute(
             path: '/profile',
-            pageBuilder: (context, state) => NoTransitionPage(child: ProfileScreen()),
+            pageBuilder: (context, state) =>
+                NoTransitionPage(child: ProfileScreen()),
           )
         ])
       ])
@@ -54,19 +60,36 @@ class TravelHelperApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: _route.routerDelegate,
-      routeInformationParser: _route.routeInformationParser,
-      routeInformationProvider: _route.routeInformationProvider,
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          textTheme: TextTheme(
-            bodyLarge: TextStyle(fontFamily: 'Manrope', fontSize: 32.0, fontWeight: FontWeight.w700),
-            bodyMedium: TextStyle(fontFamily: 'Manrope', fontSize: 24.0, fontWeight: FontWeight.w700),
-            bodySmall: TextStyle(fontFamily: 'Manrope', fontSize: 16.0),
-          )),
-      debugShowCheckedModeBanner: false,
+    final findInfoBloc = FindInfoBloc();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<FindInfoBloc>(
+          create: (context) => findInfoBloc,
+        ),
+        BlocProvider<HotelsInfoBloc>(
+          create: (context) => HotelsInfoBloc(findInfoBloc),
+        ),
+      ],
+      child: MaterialApp.router(
+        routerDelegate: _route.routerDelegate,
+        routeInformationParser: _route.routeInformationParser,
+        routeInformationProvider: _route.routeInformationProvider,
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(
+                  fontFamily: 'Manrope',
+                  fontSize: 32.0,
+                  fontWeight: FontWeight.w700),
+              bodyMedium: TextStyle(
+                  fontFamily: 'Manrope',
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w700),
+              bodySmall: TextStyle(fontFamily: 'Manrope', fontSize: 16.0),
+            )),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
