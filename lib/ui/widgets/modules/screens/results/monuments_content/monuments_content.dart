@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/photos/monuments_photos_bloc.dart';
 import 'package:travel_helper_next/data/models/monument/monument.dart';
 import 'package:travel_helper_next/domain/services/monuments_response/monuments_response.dart';
 import 'package:travel_helper_next/data/json/maps_data.dart';
@@ -11,7 +12,6 @@ import 'monuments_bottom_sheet_content.dart';
 
 class AttractionsContent extends StatelessWidget {
   AttractionsContent({Key? key}) : super(key: key);
-  final MonumentsResponse monumentsResponse = MonumentsResponse.fromJson(mul);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class AttractionsContent extends StatelessWidget {
         );
       }
       if (state is MonumentInfoReceived) {
+        final MonumentsResponse monumentsResponse = state.monumentsResponse;
         return SingleChildScrollView(
           child: Column(
             children: [
@@ -63,6 +64,7 @@ class _MonumentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        BlocProvider.of<MonumentsPhotosBloc>(context).add(MakeRequestMonumentsPhotos(business_id: monumentData.business_id));
         monumentsBottomSheetContent(context, monumentData);
       },
       child: Padding(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/photos/monuments_photos_bloc.dart';
 import 'package:travel_helper_next/data/models/monument/monument.dart';
 
 @override
@@ -15,9 +17,25 @@ void monumentsBottomSheetContent(
             padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
             child: Column(
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  color: Colors.red,
+                BlocBuilder<MonumentsPhotosBloc, MonumentsPhotosState>(
+                  builder: (context, state) {
+                    if (state is MonumentPhotosError) {
+                      return const SizedBox();
+                    }
+                    if (state is MonumentPhotosLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (state is MonumentPhotosReceived) {
+                      return SizedBox(
+                          width: 300, height: 200, child: state.photoWidget);
+                    } else {
+                      return const Center(
+                        child: Text("123"),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(
                   height: 12,

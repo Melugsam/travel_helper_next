@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
 import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/photos/monuments_photos_bloc.dart';
 import 'package:travel_helper_next/bloc/navigation/results/weather/weather_info_bloc.dart';
 import 'package:travel_helper_next/ui/screens/auth/login_screen.dart';
 import 'package:travel_helper_next/ui/screens/auth/register_screen.dart';
@@ -71,6 +72,9 @@ class TravelHelperApp extends StatelessWidget {
         ),
         BlocProvider<MonumentsInfoBloc>(
           create: (context) => MonumentsInfoBloc(),
+        ),
+        BlocProvider<MonumentsPhotosBloc>(
+          create: (context) => MonumentsPhotosBloc(),
         ),
       ],
       child: MaterialApp.router(

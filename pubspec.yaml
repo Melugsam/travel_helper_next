@@ -117,5 +117,6 @@ flutter:
 
   assets:
     - assets/images/face_sad.svg
+    - assets/images/temp.png
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -22,11 +22,11 @@ class CustomNetworkImage extends StatelessWidget {
           if (loadingProgress == null) {
             return child;
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       );
     } catch (e) {
-      return Placeholder();
+      return const Placeholder();
     }
   }
 }

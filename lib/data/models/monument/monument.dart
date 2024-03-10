@@ -15,7 +15,7 @@ class MonumentData with _$MonumentData {
     @Default(0) double rating,
     @Default("") String place_id,
     @Default("") String place_link,
-    @Default([]) List<String> description
+    @Default([]) List<String> description,
 }) = _MonumentData;
 
   factory MonumentData.fromJson(Map<String, dynamic> json) =>
