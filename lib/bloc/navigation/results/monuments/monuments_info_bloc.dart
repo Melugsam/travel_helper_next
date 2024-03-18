@@ -38,7 +38,6 @@ class MonumentsInfoBloc extends Bloc<MonumentsInfoEvent, MonumentsInfoState> {
             'X-RapidAPI-Host': 'maps-data.p.rapidapi.com',
           });
       if (response.statusCode == 200) {
-        print(response.body);
         return MonumentsResponse.fromJson(json.decode(response.body));
       }
       else{

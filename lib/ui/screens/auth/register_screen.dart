@@ -54,7 +54,7 @@ class RegisterScreen extends StatelessWidget {
                 CustomButton(
                     text: "Зарегистрироваться",
                     onPressed: () {},
-                    style: CutstomButtonStyle(
+                    style: CustomButtonStyle(
                         borderRadius: 26,
                         customBackgroundColor: Theme.of(context).primaryColor,
                         textColor: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bl
 import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
 import 'package:travel_helper_next/bloc/navigation/results/weather/weather_info_bloc.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
+import 'package:travel_helper_next/ui/widgets/core/labeled_text_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -57,17 +59,20 @@ class _SearchScreenState extends State<SearchScreen> {
                   TextSourceAttribution(
                     textStyle: TextStyle(fontSize: 16),
                     'Stadia Maps',
-                    onTap: () => launchUrl(Uri.parse('https://stadiamaps.com/')),
+                    onTap: () =>
+                        launchUrl(Uri.parse('https://stadiamaps.com/')),
                   ),
                   TextSourceAttribution(
                     textStyle: TextStyle(fontSize: 16),
                     'OpenMapTiles',
-                    onTap: () => launchUrl(Uri.parse('https://openmaptiles.org/')),
+                    onTap: () =>
+                        launchUrl(Uri.parse('https://openmaptiles.org/')),
                   ),
                   TextSourceAttribution(
                     textStyle: TextStyle(fontSize: 16),
                     'OpenStreetMap',
-                    onTap: () => launchUrl(Uri.parse('https://www.openstreetmap.org/copyright')),
+                    onTap: () => launchUrl(
+                        Uri.parse('https://www.openstreetmap.org/copyright')),
                   ),
                 ],
               ),
@@ -82,19 +87,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: CustomButton(
-                        text: "Найти",
-                        icon: Icons.map_outlined,
-                        onPressed: () {
-                          BlocProvider.of<HotelsInfoBloc>(context).add(MakeRequestHotels(mapPoint: _mapPoint));
-                          BlocProvider.of<WeatherInfoBloc>(context).add(MakeRequestWeather(mapPoint: _mapPoint));
-                          BlocProvider.of<MonumentsInfoBloc>(context).add(MakeRequestMonuments(mapPoint: _mapPoint));
-                          context.go('/results');
-                        },
-                        style: CutstomButtonStyle(
-                            borderRadius: 26,
-                            customBackgroundColor: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            textSize: 16)),
+                      text: "Найти",
+                      icon: Icons.map_outlined,
+                      onPressed: () {
+                        _showDialog(context);
+                      },
+                      style: CustomButtonStyle(
+                          borderRadius: 26,
+                          customBackgroundColor: Theme.of(context).primaryColor,
+                          textColor: Colors.white,
+                          textSize: 16),
+                    ),
                   )
                 ],
               ),
@@ -103,5 +106,126 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+}
+
+Future<void> _showDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Center(
+            child: Text(
+          "Уточните параметры",
+          style: TextStyle(fontSize: 20),
+        )),
+        contentPadding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+        content: const SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Text(
+                "Пожалуйста укажите\nдаты заезда и выезда",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              DataTextField(
+                hintText: "Дата заезда",
+              ),
+              DataTextField(
+                hintText: "Дата выезда",
+              )
+            ],
+          ),
+        ),
+        actionsPadding: const EdgeInsets.fromLTRB(60,16,60,20),
+        actions: [
+          CustomButton(
+            text: "Поиск",
+            icon: Icons.search,
+            onPressed: () {},
+            style: CustomButtonStyle(
+                borderRadius: 26,
+                customBackgroundColor: Theme.of(context).primaryColor,
+                textColor: Colors.white,
+                textSize: 16),
+          )
+        ],
+      );
+    },
+  );
+}
+
+class DataTextField extends StatefulWidget {
+  final String hintText;
+
+  const DataTextField({super.key, required this.hintText});
+
+  @override
+  State<DataTextField> createState() => _DataTextFieldState();
+}
+
+class _DataTextFieldState extends State<DataTextField> {
+  final TextEditingController _dateController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 18),
+      child: TextField(
+        readOnly: true,
+        controller: _dateController,
+        onTap: () {
+          selectDate(context);
+        },
+        style: TextStyle(
+          fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
+          fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+          color: const Color.fromRGBO(66, 72, 86, 1.0),
+          fontWeight: FontWeight.w500,
+        ),
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide.none),
+          filled: true,
+          fillColor: const Color.fromRGBO(243, 244, 246, 1.0),
+          prefixIcon: const Icon(Icons.calendar_month),
+          hintText: widget.hintText,
+          hintStyle: const TextStyle(color: Color.fromRGBO(189, 193, 202, 1.0)),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey, width: 2),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      cancelText: "Отмена",
+      confirmText: "Принять",
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year, DateTime.now().month + 2, 0),
+      builder: (context, child) {
+        return Theme(
+            data: ThemeData(
+              textTheme: Theme.of(context).textTheme.copyWith(
+                    bodyLarge: const TextStyle(fontSize: 16),
+                  ),
+            ),
+            child: child!);
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        _dateController.text = picked.toString().split(" ")[0];
+      });
+    }
   }
 }

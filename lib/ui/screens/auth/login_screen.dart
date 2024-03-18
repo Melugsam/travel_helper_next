@@ -12,18 +12,18 @@ class LoginScreen extends StatelessWidget {
         body: SingleChildScrollView(
       child: Center(
         child: Column(children: [
-          SizedBox(
+          const SizedBox(
             height: 120,
           ),
           Text(
             "Рады видеть снова!",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Text("Travel Helper", style: Theme.of(context).textTheme.bodyMedium),
-          SizedBox(
+          const SizedBox(
             height: 64,
           ),
           Padding(
@@ -34,14 +34,14 @@ class LoginScreen extends StatelessWidget {
                   labelText: "Почта",
                   hintText: "Введите почту",
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 LabeledTextField(
                   labelText: "Пароль",
                   hintText: "Введите пароль",
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 Align(
@@ -66,20 +66,20 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 64,
                 ),
                 CustomButton(
-                    text: "Войти (так пропощу)",
+                    text: "Войти",
                     onPressed: () {
                       context.go('/search');
                     },
-                    style: CutstomButtonStyle(
+                    style: CustomButtonStyle(
                         borderRadius: 26,
                         customBackgroundColor: Theme.of(context).primaryColor,
                         textColor: Colors.white,
                         textSize: 16)),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(

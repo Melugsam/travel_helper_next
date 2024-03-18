@@ -14,12 +14,12 @@ class WelcomeScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
           height: 50,
-          margin: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+          margin: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
           child: CustomButton(
               text: "Начать",
               icon: Icons.arrow_forward,
               onPressed: () => {context.go('/login')},
-              style: CutstomButtonStyle(
+              style: CustomButtonStyle(
                   borderRadius: 4,
                   customBackgroundColor: Theme.of(context).primaryColor,
                   textColor: Colors.white,

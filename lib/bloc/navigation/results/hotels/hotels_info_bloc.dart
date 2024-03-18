@@ -24,8 +24,8 @@ class HotelsInfoBloc extends Bloc<HotelsInfoEvent, HotelsInfoState> {
   }
 
   Future<HotelsResponse> fetchHotelsData(LatLng mapPoint) async {
-    String checkIn = "2024-03-10";
-    String checkOut = "2024-03-21";
+    String checkIn = "2024-03-15";
+    String checkOut = "2024-03-30";
     try {
       final response = await http.get(
           Uri.parse(
