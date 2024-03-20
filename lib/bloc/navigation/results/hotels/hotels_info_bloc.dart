@@ -10,7 +10,17 @@ part 'hotels_info_event.dart';
 part 'hotels_info_state.dart';
 
 class HotelsInfoBloc extends Bloc<HotelsInfoEvent, HotelsInfoState> {
+  String firstDate = '';
+  String secondDate = '';
   HotelsInfoBloc() : super(HotelsInfoInitial()) {
+    on<SaveDateVariable>((event, emit) {
+      if(event.position==1){
+        firstDate = event.date;
+      }
+      if (event.position==2){
+        secondDate=event.date;
+      }
+    });
     on<MakeRequestHotels>((event, emit) async {
       emit(HotelsInfoLoadingState());
       try{

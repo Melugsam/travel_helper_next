@@ -11,6 +11,8 @@ import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
 import 'package:travel_helper_next/ui/widgets/core/labeled_text_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../widgets/modules/screens/search/data_text_field.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -90,7 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       text: "Найти",
                       icon: Icons.map_outlined,
                       onPressed: () {
-                        _showDialog(context);
+                        _showDialog(context, _mapPoint);
                       },
                       style: CustomButtonStyle(
                           borderRadius: 26,
@@ -109,7 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 }
 
-Future<void> _showDialog(BuildContext context) {
+Future<void> _showDialog(BuildContext context, LatLng mapPoint) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -133,19 +135,27 @@ Future<void> _showDialog(BuildContext context) {
               ),
               DataTextField(
                 hintText: "Дата заезда",
+                position: 0,
               ),
               DataTextField(
                 hintText: "Дата выезда",
+                position: 1,
               )
             ],
           ),
         ),
-        actionsPadding: const EdgeInsets.fromLTRB(60,16,60,20),
+        actionsPadding: const EdgeInsets.fromLTRB(60, 16, 60, 20),
         actions: [
           CustomButton(
             text: "Поиск",
             icon: Icons.search,
-            onPressed: () {},
+            onPressed: () {
+              print(BlocProvider.of<HotelsInfoBloc>(context).firstDate);
+              print(BlocProvider.of<HotelsInfoBloc>(context).secondDate);
+              //BlocProvider.of<HotelsInfoBloc>(context).add(MakeRequestHotels(mapPoint: mapPoint));
+              // BlocProvider.of<MonumentsInfoBloc>(context).add(MakeRequestMonuments(mapPoint: mapPoint));
+              // BlocProvider.of<WeatherInfoBloc>(context).add(MakeRequestWeather(mapPoint: mapPoint));
+            },
             style: CustomButtonStyle(
                 borderRadius: 26,
                 customBackgroundColor: Theme.of(context).primaryColor,
@@ -156,76 +166,4 @@ Future<void> _showDialog(BuildContext context) {
       );
     },
   );
-}
-
-class DataTextField extends StatefulWidget {
-  final String hintText;
-
-  const DataTextField({super.key, required this.hintText});
-
-  @override
-  State<DataTextField> createState() => _DataTextFieldState();
-}
-
-class _DataTextFieldState extends State<DataTextField> {
-  final TextEditingController _dateController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 18),
-      child: TextField(
-        readOnly: true,
-        controller: _dateController,
-        onTap: () {
-          selectDate(context);
-        },
-        style: TextStyle(
-          fontFamily: Theme.of(context).textTheme.bodySmall!.fontFamily,
-          fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
-          color: const Color.fromRGBO(66, 72, 86, 1.0),
-          fontWeight: FontWeight.w500,
-        ),
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide.none),
-          filled: true,
-          fillColor: const Color.fromRGBO(243, 244, 246, 1.0),
-          prefixIcon: const Icon(Icons.calendar_month),
-          hintText: widget.hintText,
-          hintStyle: const TextStyle(color: Color.fromRGBO(189, 193, 202, 1.0)),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 2),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      cancelText: "Отмена",
-      confirmText: "Принять",
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year, DateTime.now().month + 2, 0),
-      builder: (context, child) {
-        return Theme(
-            data: ThemeData(
-              textTheme: Theme.of(context).textTheme.copyWith(
-                    bodyLarge: const TextStyle(fontSize: 16),
-                  ),
-            ),
-            child: child!);
-      },
-    );
-    if (picked != null) {
-      setState(() {
-        _dateController.text = picked.toString().split(" ")[0];
-      });
-    }
-  }
 }
