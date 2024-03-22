@@ -9,9 +9,9 @@ import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_i
 import 'package:travel_helper_next/bloc/navigation/results/weather/weather_info_bloc.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
 import 'package:travel_helper_next/ui/widgets/core/labeled_text_field.dart';
+import 'package:travel_helper_next/ui/widgets/modules/screens/search/alert_form.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../widgets/modules/screens/search/data_text_field.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -115,54 +115,20 @@ Future<void> _showDialog(BuildContext context, LatLng mapPoint) {
   return showDialog(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        title: const Center(
+      return const AlertDialog(
+        title: Center(
             child: Text(
           "Уточните параметры",
           style: TextStyle(fontSize: 20),
         )),
-        contentPadding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-        content: const SingleChildScrollView(
+        contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+        content: SingleChildScrollView(
           child: ListBody(
             children: [
-              Text(
-                "Пожалуйста укажите\nдаты заезда и выезда",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              DataTextField(
-                hintText: "Дата заезда",
-                position: 0,
-              ),
-              DataTextField(
-                hintText: "Дата выезда",
-                position: 1,
-              )
+              AlertForm()
             ],
           ),
         ),
-        actionsPadding: const EdgeInsets.fromLTRB(60, 16, 60, 20),
-        actions: [
-          CustomButton(
-            text: "Поиск",
-            icon: Icons.search,
-            onPressed: () {
-              print(BlocProvider.of<HotelsInfoBloc>(context).firstDate);
-              print(BlocProvider.of<HotelsInfoBloc>(context).secondDate);
-              //BlocProvider.of<HotelsInfoBloc>(context).add(MakeRequestHotels(mapPoint: mapPoint));
-              // BlocProvider.of<MonumentsInfoBloc>(context).add(MakeRequestMonuments(mapPoint: mapPoint));
-              // BlocProvider.of<WeatherInfoBloc>(context).add(MakeRequestWeather(mapPoint: mapPoint));
-            },
-            style: CustomButtonStyle(
-                borderRadius: 26,
-                customBackgroundColor: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                textSize: 16),
-          )
-        ],
       );
     },
   );
