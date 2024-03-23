@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:latlong2/latlong.dart';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_helper_next/data/api_key/api_key.dart';
 import 'package:travel_helper_next/domain/services/monuments_response/monuments_response.dart';
 part 'monuments_info_event.dart';
 part 'monuments_info_state.dart';
@@ -34,7 +35,7 @@ class MonumentsInfoBloc extends Bloc<MonumentsInfoEvent, MonumentsInfoState> {
               'https://maps-data.p.rapidapi.com/nearby.php').replace(queryParameters: queryParams),
           headers: {
             'X-RapidAPI-Key':
-            'b90067a9b8msh9395067bc105ddfp16fba8jsnaa403b98ff76',
+            key,
             'X-RapidAPI-Host': 'maps-data.p.rapidapi.com',
           });
       if (response.statusCode == 200) {

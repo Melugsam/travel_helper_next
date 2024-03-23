@@ -59,19 +59,19 @@ class _SearchScreenState extends State<SearchScreen> {
                 animationConfig: const ScaleRAWA(), // Или `FadeRAWA`
                 attributions: [
                   TextSourceAttribution(
-                    textStyle: TextStyle(fontSize: 16),
+                    textStyle: const TextStyle(fontSize: 16),
                     'Stadia Maps',
                     onTap: () =>
                         launchUrl(Uri.parse('https://stadiamaps.com/')),
                   ),
                   TextSourceAttribution(
-                    textStyle: TextStyle(fontSize: 16),
+                    textStyle: const TextStyle(fontSize: 16),
                     'OpenMapTiles',
                     onTap: () =>
                         launchUrl(Uri.parse('https://openmaptiles.org/')),
                   ),
                   TextSourceAttribution(
-                    textStyle: TextStyle(fontSize: 16),
+                    textStyle: const TextStyle(fontSize: 16),
                     'OpenStreetMap',
                     onTap: () => launchUrl(
                         Uri.parse('https://www.openstreetmap.org/copyright')),
@@ -115,17 +115,17 @@ Future<void> _showDialog(BuildContext context, LatLng mapPoint) {
   return showDialog(
     context: context,
     builder: (context) {
-      return const AlertDialog(
-        title: Center(
+      return AlertDialog(
+        title: const Center(
             child: Text(
           "Уточните параметры",
           style: TextStyle(fontSize: 20),
         )),
-        contentPadding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+        contentPadding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
         content: SingleChildScrollView(
           child: ListBody(
             children: [
-              AlertForm()
+              AlertForm(mapPoint: mapPoint)
             ],
           ),
         ),

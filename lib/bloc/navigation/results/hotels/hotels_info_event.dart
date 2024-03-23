@@ -4,7 +4,9 @@ abstract class HotelsInfoEvent {}
 
 class MakeRequestHotels extends HotelsInfoEvent{
   final LatLng mapPoint;
-  MakeRequestHotels({required this.mapPoint});
+  final String checkInDate;
+  final String checkOutDate;
+  MakeRequestHotels({required this.mapPoint, required this.checkInDate, required this.checkOutDate});
 }
 
 class SaveDateVariable extends HotelsInfoEvent{
