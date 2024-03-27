@@ -15,16 +15,16 @@ class AlertForm extends StatefulWidget {
 }
 
 class _AlertFormState extends State<AlertForm> {
+  final GlobalKey<FormState> _alertFormKey = GlobalKey<FormState>();
   TextEditingController inDateController = TextEditingController();
   TextEditingController outDateController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool error = false;
   bool outDateEnabled = false;
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: _alertFormKey,
       child: Column(
         children: [
           const Text(
@@ -157,7 +157,7 @@ class _AlertFormState extends State<AlertForm> {
               text: "Поиск",
               icon: Icons.search,
               onPressed: () {
-                if (_formKey.currentState!.validate() && error==false) {
+                if (_alertFormKey.currentState!.validate() && error==false) {
                   Navigator.pop(context);
                   // BlocProvider.of<HotelsInfoBloc>(context).add(
                   //     MakeRequestHotels(
