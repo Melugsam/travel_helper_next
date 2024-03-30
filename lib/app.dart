@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_helper_next/bloc/auth/login/login_bloc.dart';
 import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
 import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
 import 'package:travel_helper_next/bloc/navigation/results/monuments/photos/monuments_photos_bloc.dart';
@@ -13,20 +14,34 @@ import 'package:travel_helper_next/ui/screens/navigation/results/results_screen.
 import 'package:travel_helper_next/ui/screens/navigation/search/search_map_screen.dart';
 import 'package:travel_helper_next/ui/screens/welcome/welcome_screen.dart';
 
+import 'bloc/auth/register/register_bloc.dart';
+
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
   GoRoute(
     path: '/',
-    builder: (context, state) => WelcomeScreen(),
+    builder: (context, state) => const WelcomeScreen(),
   ),
   GoRoute(
     path: '/login',
-    builder: (context, state) => LoginScreen(),
+    pageBuilder: (context, state) => CustomTransitionPage(
+      key: state.pageKey,
+      child: const LoginScreen(),
+      transitionDuration: const Duration(milliseconds: 300),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+          FadeTransition(opacity: animation, child: child),
+    ),
   ),
   GoRoute(
     path: '/register',
-    builder: (context, state) => RegisterScreen(),
+    pageBuilder: (context, state) => CustomTransitionPage(
+      key: state.pageKey,
+      child: const RegisterScreen(),
+      transitionDuration: const Duration(milliseconds: 300),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+          FadeTransition(opacity: animation, child: child),
+    ),
   ),
   StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -37,7 +52,7 @@ final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
           GoRoute(
             path: '/search',
             pageBuilder: (context, state) =>
-                NoTransitionPage(child: SearchScreen()),
+                const NoTransitionPage(child: SearchScreen()),
           ),
         ]),
         StatefulShellBranch(routes: [
@@ -51,7 +66,7 @@ final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
           GoRoute(
             path: '/profile',
             pageBuilder: (context, state) =>
-                NoTransitionPage(child: ProfileScreen()),
+                const NoTransitionPage(child: ProfileScreen()),
           )
         ])
       ])
@@ -64,6 +79,12 @@ class TravelHelperApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(),
+        ),
+        BlocProvider<RegisterBloc>(
+          create: (context) => RegisterBloc(),
+        ),
         BlocProvider<HotelsInfoBloc>(
           create: (context) => HotelsInfoBloc(),
         ),

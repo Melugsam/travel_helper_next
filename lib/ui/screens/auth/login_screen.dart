@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_helper_next/bloc/auth/login/login_bloc.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
-import 'package:travel_helper_next/ui/widgets/core/labeled_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController loginController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool error = false;
+  String errorData = "";
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
-                        "Почта/логин",
+                        "Почта",
                         style: TextStyle(
                           fontFamily:
                               Theme.of(context).textTheme.bodySmall!.fontFamily,
@@ -65,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           setState(() {
+                            errorData = "Пожалуйста, заполните пустые поля";
                             error = true;
                           });
                           return;
@@ -89,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           filled: true,
                           fillColor: const Color.fromRGBO(243, 244, 246, 1.0),
-                          hintText: "Введите почту/логин",
+                          hintText: "Введите почту",
                           hintStyle: const TextStyle(
                               color: Color.fromRGBO(189, 193, 202, 1.0)),
                           contentPadding:
@@ -120,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           setState(() {
+                            errorData = "Пожалуйста, заполните пустые поля";
                             error = true;
                           });
                           return;
@@ -161,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             overlayColor: MaterialStateColor.resolveWith(
                                 (states) => Colors.transparent),
                             padding: MaterialStateProperty.all(
-                                EdgeInsets.only(left: 20)),
+                                const EdgeInsets.only(left: 20)),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                         child: Text(
                           "Забыли пароль?",
@@ -180,11 +184,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     error
-                        ? const Padding(
-                            padding: EdgeInsets.only(top: 16.0),
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
                             child: Text(
-                              "Пожалуйста, заполните пустые поля",
-                              style: TextStyle(
+                              errorData,
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.red,
@@ -196,20 +200,64 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 48,
                     ),
-                    CustomButton(
-                        text: "Войти",
-                        onPressed: () {
-                          if (_authFormKey.currentState!.validate() &&
-                              error == false) {
+                    BlocBuilder<LoginBloc, LoginState>(
+                      builder: (context, state) {
+                        if (state is LoginInitial) {
+                          return CustomButton(
+                              text: "Войти",
+                              onPressed: () {
+                                if (_authFormKey.currentState!.validate() &&
+                                    error == false) {
+                                  BlocProvider.of<LoginBloc>(context).add(
+                                      TryLoginEvent(
+                                          mail: loginController.text,
+                                          password: passwordController.text));
+                                }
+                              },
+                              style: CustomButtonStyle(
+                                  borderRadius: 26,
+                                  customBackgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  textColor: Colors.white,
+                                  textSize: 16));
+                        }
+                        if (state is SuccessLoginState) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
                             context.go("/search");
-                          }
-                        },
-                        style: CustomButtonStyle(
-                            borderRadius: 26,
-                            customBackgroundColor:
-                                Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            textSize: 16)),
+                          });
+                        }
+                        if (state is WaitingLoginState) {
+                          return const CircularProgressIndicator();
+                        }
+                        if (state is ErrorLoginState) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            setState(() {
+                              error = true;
+                              errorData = "Некорректно введены данные";
+                            });
+                          });
+                          return CustomButton(
+                              text: "Войти",
+                              onPressed: () {
+                                if (_authFormKey.currentState!.validate() &&
+                                    error == false) {
+                                  BlocProvider.of<LoginBloc>(context).add(
+                                      TryLoginEvent(
+                                          mail: loginController.text,
+                                          password: passwordController.text));
+                                }
+                              },
+                              style: CustomButtonStyle(
+                                  borderRadius: 26,
+                                  customBackgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  textColor: Colors.white,
+                                  textSize: 16));
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    ),
                     const SizedBox(
                       height: 8,
                     ),
@@ -235,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               overlayColor: MaterialStateColor.resolveWith(
                                   (states) => Colors.transparent),
                               padding: MaterialStateProperty.all(
-                                  EdgeInsets.only(left: 4)),
+                                  const EdgeInsets.only(left: 4)),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                           child: Text(
                             "Регистрация",
