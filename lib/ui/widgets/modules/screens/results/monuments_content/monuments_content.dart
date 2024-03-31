@@ -4,14 +4,13 @@ import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_i
 import 'package:travel_helper_next/bloc/navigation/results/monuments/photos/monuments_photos_bloc.dart';
 import 'package:travel_helper_next/data/models/monument/monument.dart';
 import 'package:travel_helper_next/domain/services/monuments_response/monuments_response.dart';
-import 'package:travel_helper_next/data/json/maps_data.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error.dart';
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_wait.dart';
 
 import 'monuments_bottom_sheet_content.dart';
 
 class AttractionsContent extends StatelessWidget {
-  AttractionsContent({Key? key}) : super(key: key);
+  const AttractionsContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class _MonumentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        BlocProvider.of<MonumentsPhotosBloc>(context).add(MakeRequestMonumentsPhotos(business_id: monumentData.business_id));
+        BlocProvider.of<MonumentsPhotosBloc>(context).add(MakeRequestMonumentsPhotos(businessId: monumentData.business_id));
         monumentsBottomSheetContent(context, monumentData);
       },
       child: Padding(

@@ -14,18 +14,18 @@ class MonumentsPhotosBloc extends Bloc<MonumentsPhotosEvent, MonumentsPhotosStat
     on<MakeRequestMonumentsPhotos>((event, emit) async{
       emit(MonumentPhotosLoading());
       try{
-        var response = await fetchWeatherData(event.business_id);
+        var response = await fetchWeatherData(event.businessId);
         emit(MonumentPhotosReceived(photoWidget: buildPhotoWidget(response)));
       }catch(ex){
-        print(ex);
+        debugPrint(ex.toString());
         emit(MonumentPhotosError());
       }
     });
   }
-  Future<MonumentPhotoResponse> fetchWeatherData(String business_id) async {
+  Future<MonumentPhotoResponse> fetchWeatherData(String businessId) async {
     try {
       final Map<String, String> queryParams = {
-        'business_id':business_id
+        'business_id':businessId
       };
       final response = await http.get(
           Uri.parse(
@@ -42,7 +42,7 @@ class MonumentsPhotosBloc extends Bloc<MonumentsPhotosEvent, MonumentsPhotosStat
         throw Exception("Плохой статус");
       }
     } catch(ex) {
-      print(ex);
+      debugPrint(ex.toString());
       throw Exception("Не удалось получить информацию");
     }
   }

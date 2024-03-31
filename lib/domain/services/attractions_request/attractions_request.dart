@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:travel_helper_next/data/json/places.dart';
+//import 'package:travel_helper_next/data/json/places.dart';
 import 'package:travel_helper_next/data/models/attraction/attraction.dart';
 
 part 'attractions_request.freezed.dart';
@@ -17,5 +17,5 @@ class AttractionsRequest with _$AttractionsRequest {
 
 
 void main() {
-  print(AttractionsRequest.fromJson(mul));
+  //print(AttractionsRequest.fromJson(mul));
 }

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:travel_helper_next/data/json/openweather.dart';
+//import 'package:travel_helper_next/data/json/openweather.dart';
 import 'package:travel_helper_next/data/models/weather/weather.dart';
 
 part 'weather_response.freezed.dart';
@@ -17,5 +17,5 @@ class WeatherResponse with _$WeatherResponse {
       _$WeatherResponseFromJson(json);
 }
 void main(){
-  print(WeatherResponse.fromJson(mul));
+  //print(WeatherResponse.fromJson(mul));
 }

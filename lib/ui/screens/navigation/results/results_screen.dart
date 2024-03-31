@@ -6,6 +6,8 @@ import 'package:travel_helper_next/ui/widgets/modules/screens/results/weather_co
 class ResultsScreen extends StatefulWidget {
   final int index = 0;
 
+  const ResultsScreen({super.key});
+
   @override
   State<ResultsScreen> createState() => _ResultsScreenState();
 }
@@ -32,10 +34,10 @@ class _ResultsScreenState extends State<ResultsScreen>
     return Column(
       children: [
         const SizedBox(height: 40,),
-        Container(
+        SizedBox(
           height: 80,
           child: TabBar(
-            padding: EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.symmetric(horizontal: 32),
             dividerHeight: 0,
             splashFactory: NoSplash.splashFactory,
             overlayColor: MaterialStateProperty.resolveWith<Color?>(
@@ -73,7 +75,7 @@ class _ResultsScreenState extends State<ResultsScreen>
           ),
         ),
         Expanded(
-          child: TabBarView(controller: _tabController, children: [
+          child: TabBarView(controller: _tabController, children: const [
             HotelsContent(),
             WeatherContent(),
             AttractionsContent(),

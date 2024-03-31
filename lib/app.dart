@@ -59,7 +59,7 @@ final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
           GoRoute(
             path: '/results',
             pageBuilder: (context, state) =>
-                NoTransitionPage(child: ResultsScreen()),
+                const NoTransitionPage(child: ResultsScreen()),
           ),
         ]),
         StatefulShellBranch(routes: [

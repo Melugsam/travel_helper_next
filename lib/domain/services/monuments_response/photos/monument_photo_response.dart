@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:travel_helper_next/data/models/monument/monument.dart';
 import 'package:travel_helper_next/data/models/monument/photos/monument_photos.dart';
 
 part 'monument_photo_response.freezed.dart';

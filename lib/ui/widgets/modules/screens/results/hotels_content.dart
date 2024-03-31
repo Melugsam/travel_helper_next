@@ -8,7 +8,7 @@ import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_wait.dart';
 
 class HotelsContent extends StatelessWidget {
-  HotelsContent({Key? key}) : super(key: key);
+  const HotelsContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _HotelBlock extends StatelessWidget {
     return url.replaceAll("{width}", "500").replaceAll("{height}", "300");
   }
 
-  _HotelBlock(
+  const _HotelBlock(
       {required this.title,
       required this.bubbleRating,
       required this.cardPhotos});

@@ -17,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
   bool error = false;
   String errorData = "";
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextFormField(
                       controller: loginController,
+                      keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           setState(() {
@@ -120,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextFormField(
                       controller: passwordController,
+                      obscureText: _passwordVisible,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           setState(() {
@@ -142,17 +145,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w500,
                       ),
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none,
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            onTap: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                            child: const Icon(Icons.remove_red_eye_outlined),
                           ),
-                          filled: true,
-                          fillColor: const Color.fromRGBO(243, 244, 246, 1.0),
-                          hintText: "Введите пароль",
-                          hintStyle: const TextStyle(
-                              color: Color.fromRGBO(189, 193, 202, 1.0)),
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 16)),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: const Color.fromRGBO(243, 244, 246, 1.0),
+                        hintText: "Введите пароль",
+                        hintStyle: const TextStyle(
+                            color: Color.fromRGBO(189, 193, 202, 1.0)),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
+                      ),
                     ),
                     const SizedBox(
                       height: 16,

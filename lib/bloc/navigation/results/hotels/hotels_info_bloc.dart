@@ -52,7 +52,7 @@ class HotelsInfoBloc extends Bloc<HotelsInfoEvent, HotelsInfoState> {
         throw Exception('Плохой статус');
       }
     } catch (ex) {
-      print(ex);
+      debugPrint(ex.toString());
       throw Exception("Не удалось получить информацию");
     }
   }

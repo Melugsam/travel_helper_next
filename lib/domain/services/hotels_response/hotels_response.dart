@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:travel_helper_next/data/json/tripadvisor.dart';
+//import 'package:travel_helper_next/data/json/tripadvisor.dart';
 import 'package:travel_helper_next/data/models/hotel/hotel_class.dart';
 
 part 'hotels_response.freezed.dart';
@@ -15,5 +15,5 @@ class HotelsResponse with _$HotelsResponse {
   factory HotelsResponse.fromJson(Map<String, dynamic> json) => _$HotelsResponseFromJson(json);
 }
 void main() {
-  print(HotelsResponse.fromJson(mul));
+  //print(HotelsResponse.fromJson(mul));
 }

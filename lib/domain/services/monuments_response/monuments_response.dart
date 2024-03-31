@@ -1,4 +1,4 @@
-import 'package:travel_helper_next/data/json/maps_data.dart';
+//import 'package:travel_helper_next/data/json/maps_data.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:travel_helper_next/data/models/monument/monument.dart';
 
@@ -16,5 +16,5 @@ class MonumentsResponse with _$MonumentsResponse {
 }
 
 void main(){
-  print(MonumentsResponse.fromJson(mul));
+  //print(MonumentsResponse.fromJson(mul));
 }

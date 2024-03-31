@@ -21,7 +21,7 @@ class NavigationScreen extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         surfaceTintColor: Colors.white,
         selectedIndex: navigationShell.currentIndex,
-        destinations: [
+        destinations: const [
           NavigationDestination(icon: Icon(Icons.search), label: "Поиск"),
           NavigationDestination(icon: Icon(Icons.apps_sharp), label: "Результаты"),
           NavigationDestination(icon: Icon(Icons.person), label: "Профиль"),

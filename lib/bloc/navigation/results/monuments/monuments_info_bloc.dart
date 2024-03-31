@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ class MonumentsInfoBloc extends Bloc<MonumentsInfoEvent, MonumentsInfoState> {
         var response = await fetchMonumentData(event.mapPoint);
         emit(MonumentInfoReceived(monumentsResponse: response));
       }catch(ex){
-        print(ex);
+        debugPrint(ex.toString());
         emit(MonumentInfoError());
       }
     });
@@ -45,7 +46,7 @@ class MonumentsInfoBloc extends Bloc<MonumentsInfoEvent, MonumentsInfoState> {
         throw Exception("Плохой статус");
       }
     } catch(ex) {
-      print(ex);
+      debugPrint(ex.toString());
       throw Exception("Не удалось получить информацию");
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
@@ -38,7 +39,7 @@ class WeatherInfoBloc extends Bloc<WeatherInfoEvent, WeatherInfoState> {
         throw Exception("Плохой статус");
       }
     } catch(ex) {
-      print(ex);
+      debugPrint(ex.toString());
       throw Exception("Не удалось получить информацию");
     }
   }

@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:travel_helper_next/bloc/navigation/results/hotels/hotels_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/monuments_info_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/monuments/photos/monuments_photos_bloc.dart';
+import 'package:travel_helper_next/bloc/navigation/results/weather/weather_info_bloc.dart';
 import 'package:travel_helper_next/ui/widgets/core/custom_button.dart';
 
 class AlertForm extends StatefulWidget {
@@ -157,14 +160,25 @@ class _AlertFormState extends State<AlertForm> {
               text: "Поиск",
               icon: Icons.search,
               onPressed: () {
-                if (_alertFormKey.currentState!.validate() && error==false) {
+                if (_alertFormKey.currentState!.validate() && error == false) {
                   Navigator.pop(context);
-                  // BlocProvider.of<HotelsInfoBloc>(context).add(
-                  //     MakeRequestHotels(
-                  //         mapPoint: widget.mapPoint,
-                  //         checkInDate: inDateController.text,
-                  //         checkOutDate: outDateController.text));
                   context.go("/results");
+                  BlocProvider.of<HotelsInfoBloc>(context).add(
+                    MakeRequestHotels(
+                        mapPoint: widget.mapPoint,
+                        checkInDate: inDateController.text,
+                        checkOutDate: outDateController.text),
+                  );
+                  BlocProvider.of<WeatherInfoBloc>(context).add(
+                    MakeRequestWeather(
+                      mapPoint: widget.mapPoint,
+                    ),
+                  );
+                  BlocProvider.of<MonumentsInfoBloc>(context).add(
+                    MakeRequestMonuments(
+                      mapPoint: widget.mapPoint,
+                    ),
+                  );
                 }
               },
               style: CustomButtonStyle(

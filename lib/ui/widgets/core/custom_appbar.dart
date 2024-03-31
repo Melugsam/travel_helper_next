@@ -49,7 +49,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           if (icon != null) Icon(icon, size: iconSize ?? 24),
         ],
       ),
-      backgroundColor: Color.fromRGBO(245, 241, 254, 1.0),
+      backgroundColor: const Color.fromRGBO(245, 241, 254, 1.0),
     );
   }
 

@@ -8,7 +8,7 @@ import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_error
 import 'package:travel_helper_next/ui/widgets/modules/screens/results/find_wait.dart';
 
 class WeatherContent extends StatelessWidget {
-  WeatherContent({Key? key}) : super(key: key);
+  const WeatherContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +176,7 @@ class _ContentWidget extends StatelessWidget {
 class _WeatherItemHour extends StatelessWidget {
   final WeatherData hourWeather;
 
-  _WeatherItemHour({
+  const _WeatherItemHour({
     Key? key,
     required this.hourWeather,
   }) : super(key: key);
@@ -221,9 +221,9 @@ class _WeatherItemHour extends StatelessWidget {
 
 String degCelsius(double num) => "${num.toInt() - 273}";
 
-String drFormat(String dt_txt) {
+String drFormat(String dtTxt) {
   int tmp =
-      int.parse(dt_txt.substring(dt_txt.indexOf(" "), dt_txt.indexOf(":")));
+      int.parse(dtTxt.substring(dtTxt.indexOf(" "), dtTxt.indexOf(":")));
   int hour = tmp % 12;
   if (hour == 0) {
     hour = 12;
@@ -281,9 +281,9 @@ class _WeatherItemDay extends StatelessWidget {
 
   String degCelsius(double num) => "${num.toInt() - 273}";
 
-  String dataFormat(String dt_txt) {
+  String dataFormat(String dtTxt) {
     List<String> t =
-        dt_txt.substring(0, dt_txt.lastIndexOf("-") + 3).split("-");
+        dtTxt.substring(0, dtTxt.lastIndexOf("-") + 3).split("-");
     List<String> days = [
       'Понедельник',
       'Вторник',

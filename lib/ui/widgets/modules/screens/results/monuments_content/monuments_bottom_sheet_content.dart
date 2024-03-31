@@ -10,7 +10,7 @@ void monumentsBottomSheetContent(
     context: context,
     builder: (context) {
       return SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.6,
           width: double.infinity,
           child: Padding(
@@ -165,7 +165,7 @@ void monumentsBottomSheetContent(
                           ],
                         ),
                       )
-                    : SizedBox()
+                    : const SizedBox()
               ],
             ),
           ),
