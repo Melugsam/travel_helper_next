@@ -74,7 +74,6 @@ final GoRouter _route = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
 
 class TravelHelperApp extends StatelessWidget {
   const TravelHelperApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
